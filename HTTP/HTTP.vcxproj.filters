@@ -23,8 +23,14 @@
     <ClInclude Include="HttpResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Configure.h">
+    <ClInclude Include="HttpSetopt.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UCURL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="temp.h">
+      <Filter>pch</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

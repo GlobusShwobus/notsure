@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "Configure.h"
+#include "HttpSetopt.h"
 #include "UCURL.h"
 #include "HttpResponse.h"
 #include "bString.h"

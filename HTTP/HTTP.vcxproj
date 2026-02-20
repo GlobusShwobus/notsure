@@ -128,7 +128,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)curl\;$(SolutionDir)core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -137,10 +137,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Configure.h" />
+    <ClInclude Include="HttpSetopt.h" />
     <ClInclude Include="HttpResponse.h" />
     <ClInclude Include="HttpCalls.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="temp.h" />
+    <ClInclude Include="UCURL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -153,9 +155,6 @@
   <ItemGroup>
     <ProjectReference Include="..\core\core.vcxproj">
       <Project>{85246e5f-0375-4bc1-864c-a4761fed9049}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\curl\curl.vcxproj">
-      <Project>{cfab456e-5e10-4bed-ac80-fe4d8017699f}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

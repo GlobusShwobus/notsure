@@ -132,7 +132,7 @@
       <PreprocessorDefinitions>STATIC_CONCPP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)curl\;$(SolutionDir)core\;$(SolutionDir)sqlconn\include\jdbc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)HTTP\;$(SolutionDir)core\;$(SolutionDir)sqlconn\include\jdbc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -165,9 +165,6 @@ xcopy /Y /D "$(SolutionDir)sqlconn\lib64\libssl-1_1-x64.dll" "$(OutDir)"</Comman
   <ItemGroup>
     <ProjectReference Include="..\core\core.vcxproj">
       <Project>{85246e5f-0375-4bc1-864c-a4761fed9049}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\curl\curl.vcxproj">
-      <Project>{cfab456e-5e10-4bed-ac80-fe4d8017699f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\HTTP\HTTP.vcxproj">
       <Project>{abbc702c-9ead-4bd7-98b3-bdf3441774ba}</Project>

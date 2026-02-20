@@ -2,7 +2,7 @@
 #include <memory>
 #include <curl/curl.h>
 
-namespace badCurl
+namespace badHTTP
 {
 	struct CURL_DELETER {
 		void operator()(CURL* c)const {
