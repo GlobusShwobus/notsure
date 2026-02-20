@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <curl/curl.h>
+
 namespace badCurl
 {
 	struct CURL_DELETER {

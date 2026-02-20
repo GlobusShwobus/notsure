@@ -35,7 +35,7 @@
     <ClInclude Include="Stopwatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BoolMessage.h">
+    <ClInclude Include="bString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

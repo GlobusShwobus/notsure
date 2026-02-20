@@ -13,7 +13,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Insert_statement.cpp">
+    <ClCompile Include="TableTemplate.cpp">
       <Filter>sql_stuff</Filter>
     </ClCompile>
     <ClCompile Include="SQL_inserter.cpp">
@@ -33,7 +33,7 @@
     <ClInclude Include="Stuff.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Insert_statement.h">
+    <ClInclude Include="TableTemplate.h">
       <Filter>sql_stuff</Filter>
     </ClInclude>
     <ClInclude Include="Steam_urls.h">

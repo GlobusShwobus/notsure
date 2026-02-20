@@ -3,6 +3,8 @@
 
 namespace badSQL
 {
+	using badCore::bString;
+
 	void SQLInserter::terminate() noexcept
 	{
 		cache.clear();
@@ -22,7 +24,7 @@ namespace badSQL
 			return false;
 		}
 	}
-	badCore::BoolMessage SQLInserter::connect(const std::string& user, const std::string& service) noexcept
+	bString SQLInserter::connect(const std::string& user, const std::string& service) noexcept
 	{
 		try {
 			terminate();
@@ -32,17 +34,17 @@ namespace badSQL
 		}
 		catch (const sql::SQLException& e) {
 			terminate();
-			return badCore::BoolMessage::failure(e.what());
+			return bString::failure(e.what());
 		}
 
-		return badCore::BoolMessage::success();
+		return bString::success();
 	}
 
-	badCore::BoolMessage SQLInserter::set_auto_commit(bool state)noexcept
+	bString SQLInserter::set_auto_commit(bool state)noexcept
 	{
 		if (!is_connected()) {
 			terminate();
-			return badCore::BoolMessage::failure("No Connection");
+			return bString::failure("No Connection");
 		}
 	
 		try {
@@ -50,17 +52,17 @@ namespace badSQL
 		}
 		catch (const sql::SQLException& e) {
 			terminate();
-			return badCore::BoolMessage::failure(std::string("Connection terminated: ") + e.what());
+			return bString::failure(std::string("Connection terminated: ") + e.what());
 		}
 	
-		return badCore::BoolMessage::success("State set to: " + std::to_string(static_cast<int>(state)));
+		return bString::success();
 	}
 
-	badCore::BoolMessage SQLInserter::commit() noexcept
+	bString SQLInserter::commit() noexcept
 	{
 		if (!is_connected()) {
 			terminate();
-			return badCore::BoolMessage::failure("No Connection");
+			return bString::failure("No Connection");
 		}
 	
 		try {
@@ -78,10 +80,10 @@ namespace badSQL
 			}
 	
 			terminate();
-			return badCore::BoolMessage::failure(std::string("Connection terminated: ") + e.what() + " " + rollback_throw);
+			return bString::failure(std::string("Connection terminated: ") + e.what() + " " + rollback_throw);
 		}
 	
-		return badCore::BoolMessage::success();
+		return bString::success();
 	}
 
 	sql::PreparedStatement* SQLInserter::get_pstmt(const std::string& sql)

@@ -10,21 +10,21 @@
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="pch">
-      <UniqueIdentifier>{dbcea20a-e871-4043-9653-9981c663a4c9}</UniqueIdentifier>
+      <UniqueIdentifier>{5994ab76-fe35-40c4-8383-a5000bcc4078}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UCURL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="temp.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StickyCurl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpCalls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Configure.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,12 @@
 #pragma once
 
 #include <string>
-
 #include <mysql_driver.h>              
 #include <cppconn/prepared_statement.h>   
-
 #include <memory>
 #include <unordered_map>
-#include "BoolMessage.h"
-#include "Insert_statement.h"
+#include "bString.h"
+
 
 //TODO:: call procedure?
 
@@ -26,6 +24,7 @@ namespace badSQL
 		user_bind_bulk(stmt, v, i);
 	};
 
+
 	class SQLInserter final
 	{
 	public:
@@ -34,19 +33,25 @@ namespace badSQL
 		void terminate() noexcept;
 
 		bool is_connected()noexcept;
+
+		badCore::bString set_auto_commit(bool state)noexcept;
+
+		badCore::bString commit() noexcept;
 		
-		badCore::BoolMessage connect(const std::string& user, const std::string& service) noexcept;
+		badCore::bString connect(const std::string& user, const std::string& service) noexcept;
+
+
 
 		template <BINDABLE T>
-		badCore::BoolMessage inject(const T& item, const FinalizedStatement& statement)
+		badCore::bString inject(const T& item, const std::string& statement)
 		{
 			if (!is_connected()) {
 				terminate();
-				return badCore::BoolMessage::failure("No Connection");
+				return badCore::bString::failure("No Connection");
 			}
 
 			try {
-				sql::PreparedStatement* pstmt = get_pstmt(statement.statement);
+				sql::PreparedStatement* pstmt = get_pstmt(statement);
 
 				user_bind(pstmt, item);
 
@@ -54,30 +59,30 @@ namespace badSQL
 			}
 			catch (const sql::SQLException& e) {
 				terminate();
-				return badCore::BoolMessage::failure(std::string("Connection terminated: ") + e.what());
+				return badCore::bString::failure(std::string("Connection terminated: ") + e.what());
 			}
 			catch (...) {
 				terminate();
-				return badCore::BoolMessage::failure("Connection terminated: Unknown error");
+				return badCore::bString::failure("Connection terminated: Unknown error");
 			}
 
-			return badCore::BoolMessage::success();
+			return badCore::bString::success();
 		}
 
 		template <std::input_iterator InputIt>
-		badCore::BoolMessage inject_bulk(InputIt begin, InputIt end, const FinalizedStatement& statement)
+		badCore::bString inject_bulk(InputIt begin, InputIt end, const std::string& statement)
 			requires BULK_BINDABLE<std::iter_reference_t<InputIt>>
 		{
 			if (!is_connected()) {
 				terminate();
-				return badCore::BoolMessage::failure("No Connection");
+				return badCore::bString::failure("No Connection");
 			}
 
 			if (begin == end)
-				return badCore::BoolMessage::failure("Nothing to insert");
+				return badCore::bString::failure("Nothing to insert");
 
 			try {
-				sql::PreparedStatement* pstmt = get_pstmt(statement.statement);
+				sql::PreparedStatement* pstmt = get_pstmt(statement);
 
 				std::size_t index = 1;
 				for (; begin != end; ++begin) {
@@ -88,19 +93,16 @@ namespace badSQL
 			}
 			catch (const sql::SQLException& e) {
 				terminate();
-				return badCore::BoolMessage::failure(std::string("Connection terminated: ") + e.what());
+				return badCore::bString::failure(std::string("Connection terminated: ") + e.what());
 			}
 			catch (...) {
 				terminate();
-				return badCore::BoolMessage::failure("Connection terminated: Unknown error");
+				return badCore::bString::failure("Connection terminated: Unknown error");
 			}
 
-			return badCore::BoolMessage::success();
+			return badCore::bString::success();
 		}
 
-		badCore::BoolMessage set_auto_commit(bool state)noexcept;
-
-		badCore::BoolMessage commit() noexcept;
 	private:
 
 		sql::PreparedStatement* get_pstmt(const std::string& sql);

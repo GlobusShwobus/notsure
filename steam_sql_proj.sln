@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "steam_sql_proj", "steam_sql_proj\steam_sql_proj.vcxproj", "{D9258681-A220-4840-9432-41669F9E8616}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sql", "steam_sql_proj\steam_sql_proj.vcxproj", "{D9258681-A220-4840-9432-41669F9E8616}"
 	ProjectSection(ProjectDependencies) = postProject
 		{85246E5F-0375-4BC1-864C-A4761FED9049} = {85246E5F-0375-4BC1-864C-A4761FED9049}
 		{CFAB456E-5E10-4BED-AC80-FE4D8017699F} = {CFAB456E-5E10-4BED-AC80-FE4D8017699F}
@@ -16,6 +16,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		README.txt = README.txt
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTP", "HTTP\HTTP.vcxproj", "{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85246E5F-0375-4BC1-864C-A4761FED9049} = {85246E5F-0375-4BC1-864C-A4761FED9049}
+		{CFAB456E-5E10-4BED-AC80-FE4D8017699F} = {CFAB456E-5E10-4BED-AC80-FE4D8017699F}
 	EndProjectSection
 EndProject
 Global
@@ -50,6 +56,14 @@ Global
 		{CFAB456E-5E10-4BED-AC80-FE4D8017699F}.Release|x64.Build.0 = Release|x64
 		{CFAB456E-5E10-4BED-AC80-FE4D8017699F}.Release|x86.ActiveCfg = Release|Win32
 		{CFAB456E-5E10-4BED-AC80-FE4D8017699F}.Release|x86.Build.0 = Release|Win32
+		{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}.Debug|x64.ActiveCfg = Debug|x64
+		{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}.Debug|x64.Build.0 = Debug|x64
+		{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}.Debug|x86.ActiveCfg = Debug|Win32
+		{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}.Debug|x86.Build.0 = Debug|Win32
+		{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}.Release|x64.ActiveCfg = Release|x64
+		{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}.Release|x64.Build.0 = Release|x64
+		{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}.Release|x86.ActiveCfg = Release|Win32
+		{ABBC702C-9EAD-4BD7-98B3-BDF3441774BA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

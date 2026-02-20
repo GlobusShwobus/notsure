@@ -141,6 +141,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)sqlconn\lib64\vs14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>mysqlcppconn-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y /D "$(SolutionDir)sqlconn\lib64\libcrypto-1_1-x64.dll" "$(OutDir)"
@@ -148,14 +149,14 @@ xcopy /Y /D "$(SolutionDir)sqlconn\lib64\libssl-1_1-x64.dll" "$(OutDir)"</Comman
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Insert_statement.cpp" />
+    <ClCompile Include="TableTemplate.cpp" />
     <ClCompile Include="Payload.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SQL_inserter.cpp" />
     <ClCompile Include="Steam_urls.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Insert_statement.h" />
+    <ClInclude Include="TableTemplate.h" />
     <ClInclude Include="Payload.h" />
     <ClInclude Include="Stuff.h" />
     <ClInclude Include="SQL_inserter.h" />
@@ -167,6 +168,9 @@ xcopy /Y /D "$(SolutionDir)sqlconn\lib64\libssl-1_1-x64.dll" "$(OutDir)"</Comman
     </ProjectReference>
     <ProjectReference Include="..\curl\curl.vcxproj">
       <Project>{cfab456e-5e10-4bed-ac80-fe4d8017699f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\HTTP\HTTP.vcxproj">
+      <Project>{abbc702c-9ead-4bd7-98b3-bdf3441774ba}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

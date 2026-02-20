@@ -140,9 +140,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="StickyCurl.h" />
     <ClInclude Include="temp.h" />
-    <ClInclude Include="ucurl.h" />
-    <ClInclude Include="WRITE_HANDLE.h" />
+    <ClInclude Include="UCURL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

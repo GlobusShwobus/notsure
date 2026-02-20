@@ -14,11 +14,11 @@
 #include "Stopwatch.h"
 
 #include <vector>
-#include "Insert_statement.h"
+#include "TableTemplate.h"
 
 using namespace badSQL;
 
-std::ostream& operator<<(std::ostream& stream, const badCore::BoolMessage& e)noexcept
+std::ostream& operator<<(std::ostream& stream, const badCore::bString& e)noexcept
 {
     stream << e.message;
     return stream;
@@ -42,7 +42,7 @@ int main() {
         }
         constexpr int N = 1000;
    
-        StatementTemplate stmt("steamdb", "raw_payloads");
+        TableTemplate stmt("steamdb", "raw_payloads");
         stmt.fields = { "steamid", "payload_type", "payload" };
    
         std::string host = "root";
@@ -67,7 +67,7 @@ int main() {
         // ------------------
         // SINGLE INSERT BENCHMARK
         // ------------------
-        FinalizedStatement single_insert_statement(stmt);
+        std::string single_insert_statement = parse_to_sql_insert_statement(stmt);
         std::size_t single_total = 0;
    
    
@@ -85,7 +85,7 @@ int main() {
         // ------------------
         // BULK INSERT BENCHMARK
         // ------------------
-        FinalizedStatement bulk_insert_statement(stmt, loads.size());
+        std::string bulk_insert_statement = parse_to_sql_insert_statement(stmt, loads.size());
         std::size_t bulk_total = 0;
    
    

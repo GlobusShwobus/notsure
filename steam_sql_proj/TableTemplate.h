@@ -6,9 +6,9 @@
 
 namespace badSQL
 {
-	struct StatementTemplate
+	struct TableTemplate
 	{
-		StatementTemplate(std::string_view schema, std::string_view table)
+		TableTemplate(std::string_view schema, std::string_view table)
 			:schema_name(schema), table_name(table)
 		{
 		}
@@ -18,11 +18,5 @@ namespace badSQL
 		badCore::Sequence<std::string> fields;
 	};
 
-
-	struct FinalizedStatement
-	{
-		explicit FinalizedStatement(const StatementTemplate& build, std::size_t repeat = 1);
-
-		std::string statement;
-	};
+	std::string parse_to_sql_insert_statement(const TableTemplate& build, std::size_t repeat = 1);
 }

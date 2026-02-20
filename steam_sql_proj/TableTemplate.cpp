@@ -1,10 +1,11 @@
-#include "Insert_statement.h"
+#include "TableTemplate.h"
 #include <format>
 
 namespace badSQL
 {
-    FinalizedStatement::FinalizedStatement(const StatementTemplate& build, std::size_t repeat)
+    std::string parse_to_sql_insert_statement(const TableTemplate& build, std::size_t repeat)
     {
+        std::string statement;
         statement.reserve(128 + build.fields.size() * repeat * 4);
 
         std::format_to(std::back_inserter(statement),
@@ -33,5 +34,6 @@ namespace badSQL
         }
 
         statement += ';';
+        return statement;
     }
 }
