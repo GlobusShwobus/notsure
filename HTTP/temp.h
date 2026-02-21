@@ -11,91 +11,6 @@
 
 namespace badCurl
 {
-
-	static std::size_t read_callback(void* content, std::size_t size, std::size_t nmemb, void* clientp)
-	{
-		size_t realSize = size * nmemb;
-
-		auto* handle = static_cast<WRITE_HANDLE*>(clientp);
-		auto* bytes = static_cast<const char*>(content);
-
-		handle->data.insert_back(
-			bytes,
-			bytes + realSize
-		);
-
-		return realSize;
-	}
-
-	badCore::BoolMessage test_connection(std::string_view url, std::string_view ca_path)
-	{
-		UCURL ucurl(curl_easy_init());
-		CURL* curl = ucurl.get();
-		if (!curl)
-			return badCore::BoolMessage::failure("failed curl init");
-
-		curl_easy_setopt(curl, CURLOPT_URL, url.data());
-		curl_easy_setopt(curl, CURLOPT_CAINFO, ca_path.data());
-		curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);//only handshake
-
-		CURLcode response = curl_easy_perform(curl);
-
-
-		if (response == CURLE_OK)
-			return badCore::BoolMessage::success();
-		else if (response == CURLE_COULDNT_CONNECT)
-			return badCore::BoolMessage::failure("couldn't connect");
-		else
-			return badCore::BoolMessage::failure(curl_easy_strerror(response));
-	}
-
-	WRITE_HANDLE request_data(std::string_view url, std::string_view certificate)
-	{
-		WRITE_HANDLE handle;
-		auto& logger = badCore::Logger::instance();
-
-		UCURL ucurl(curl_easy_init());
-		CURL* curl = ucurl.get();
-
-		if (!curl) {
-			logger.add_error("failed to init libcurl");
-			return handle;
-		}
-
-		auto setopt = [&](CURLoption opt, auto value) {
-			CURLcode rc = curl_easy_setopt(curl, opt, value);
-			if (rc != CURLE_OK) {
-				logger.add_error(std::string("curl_easy_setopt fail ") + curl_easy_strerror(rc));
-				return false;
-			}
-			return true;
-			};
-
-		//NOTE: using std::string_view and C interface must give .data()
-		if (!setopt(CURLOPT_URL, url.data()) ||
-			!setopt(CURLOPT_WRITEFUNCTION, read_callback) ||
-			!setopt(CURLOPT_WRITEDATA, &handle) ||
-			!setopt(CURLOPT_CAINFO, certificate.data()))
-		{
-			return handle;
-		}
-
-		CURLcode rc = curl_easy_perform(curl);
-
-		if (rc != CURLE_OK) {
-			logger.add_error(std::string("curl_easy_perform failed: ") + curl_easy_strerror(rc));
-			return handle;
-		}
-
-		handle.is_good = true;
-
-		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &handle.httpcode);
-		curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &handle.contentType);
-
-		return handle;
-	}
-
-
 	struct CurlRequest {
 		UCURL curl = UCURL(curl_easy_init());
 		WRITE_HANDLE handle;
@@ -233,12 +148,4 @@ namespace badCurl
 
 		curl_global_cleanup();
 	*/
-
-	// MEME HAS 8 EXTRA BYTES
-	//struct meme
-	//{
-	//	std::unique_ptr<CURL, void(*)(CURL*)> p{ curl_easy_init(), [](CURL* c) {if (c)curl_easy_cleanup(c); } };
-	//};
-	//
-
 }

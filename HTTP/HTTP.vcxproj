@@ -137,9 +137,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="HttpMultiGet.h" />
     <ClInclude Include="HttpSetopt.h" />
     <ClInclude Include="HttpResponse.h" />
-    <ClInclude Include="HttpCalls.h" />
+    <ClInclude Include="HttpGet.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="temp.h" />
     <ClInclude Include="UCURL.h" />

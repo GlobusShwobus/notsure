@@ -2,10 +2,16 @@
 
 #include <string>
 #include "HttpResponse.h"
+#include "bString.h"
 #include "UCURL.h"
 
 namespace badHTTP
 {
+	badCore::bString setopt_failure(CURLcode code)noexcept
+	{
+		return badCore::bString::failure(curl_easy_strerror(code));
+	}
+
 	CURLcode set_cacert(CURL* curl, const std::string& path) noexcept
 	{
 		return curl_easy_setopt(curl, CURLOPT_CAINFO, path.data());
@@ -70,37 +76,4 @@ namespace badHTTP
 	{
 		return curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);
 	}
-
-
-	CURLcode configure_get_template(CURL* curl, const std::string& cert)
-	{
-		CURLcode code;
-
-		code = curl_easy_setopt(curl, CURLOPT_CAINFO, cert.data());
-		if (code != CURLE_OK) return code;
-
-		code = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-		if (code != CURLE_OK) return code;
-
-		code = curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-		if (code != CURLE_OK) return code;
-
-		code = curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 5L);
-		if (code != CURLE_OK) return code;
-
-		code = curl_easy_setopt(curl, CURLOPT_TIMEOUT, 30L);
-		if (code != CURLE_OK) return code;
-
-		code = curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 10L);
-		if (code != CURLE_OK) return code;
-
-		code = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
-		if (code != CURLE_OK) return code;
-
-		code = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
-		if (code != CURLE_OK) return code;
-
-		return CURLE_OK;
-	}
-
 }

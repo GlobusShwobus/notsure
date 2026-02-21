@@ -17,7 +17,7 @@
     <ClInclude Include="pch.h">
       <Filter>pch</Filter>
     </ClInclude>
-    <ClInclude Include="HttpCalls.h">
+    <ClInclude Include="HttpGet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HttpResponse.h">
@@ -31,6 +31,9 @@
     </ClInclude>
     <ClInclude Include="temp.h">
       <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpMultiGet.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
