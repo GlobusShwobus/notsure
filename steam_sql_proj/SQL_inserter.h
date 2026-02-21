@@ -4,7 +4,6 @@
 #include <mysql_driver.h>              
 #include <cppconn/prepared_statement.h>   
 #include <memory>
-#include <unordered_map>
 #include "bString.h"
 
 
@@ -40,22 +39,26 @@ namespace badSQL
 		
 		badCore::bString connect(const std::string& user, const std::string& service) noexcept;
 
+		badCore::bString prepare(const std::string& sql) noexcept;
 
 
 		template <BINDABLE T>
-		badCore::bString inject(const T& item, const std::string& statement)
+		badCore::bString inject(const T& item)
 		{
 			if (!is_connected()) {
 				terminate();
-				return badCore::bString::failure("No Connection");
+				return badCore::bString::failure("No Connection or Prepared Statement");
 			}
 
+			if (!mPstmt) {
+				terminate();
+				return badCore::bString::failure("No Prepared Statement");
+			}
+
+
 			try {
-				sql::PreparedStatement* pstmt = get_pstmt(statement);
-
-				user_bind(pstmt, item);
-
-				pstmt->execute();
+				user_bind(mPstmt.get(), item);
+				mPstmt->execute();
 			}
 			catch (const sql::SQLException& e) {
 				terminate();
@@ -70,7 +73,7 @@ namespace badSQL
 		}
 
 		template <std::input_iterator InputIt>
-		badCore::bString inject_bulk(InputIt begin, InputIt end, const std::string& statement)
+		badCore::bString inject_bulk(InputIt begin, InputIt end)
 			requires BULK_BINDABLE<std::iter_reference_t<InputIt>>
 		{
 			if (!is_connected()) {
@@ -78,18 +81,20 @@ namespace badSQL
 				return badCore::bString::failure("No Connection");
 			}
 
+			if (!mPstmt) {
+				terminate();
+				return badCore::bString::failure("No Prepared Statement");
+			}
+
 			if (begin == end)
 				return badCore::bString::failure("Nothing to insert");
 
 			try {
-				sql::PreparedStatement* pstmt = get_pstmt(statement);
-
 				std::size_t index = 1;
-				for (; begin != end; ++begin) {
-					user_bind_bulk(pstmt, *begin, index);
-				}
+				for (; begin != end; ++begin)
+					user_bind_bulk(mPstmt.get(), *begin, index);
 
-				pstmt->execute();
+				mPstmt->execute();
 			}
 			catch (const sql::SQLException& e) {
 				terminate();
@@ -104,17 +109,8 @@ namespace badSQL
 		}
 
 	private:
-
-		sql::PreparedStatement* get_pstmt(const std::string& sql);
-
-	private:
 		//ORDER MATTERS
 		std::unique_ptr<sql::Connection> mConnect = nullptr;
-		std::unordered_map<
-			std::string,//key
-			std::unique_ptr<sql::PreparedStatement>,//type
-			std::hash<std::string_view>,//hasing with a view obj instead of a string 
-			std::equal_to<>// string == const char*
-		> cache;
+		std::unique_ptr<sql::PreparedStatement> mPstmt = nullptr;
 	};
 }

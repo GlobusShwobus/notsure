@@ -7,7 +7,7 @@ namespace badSQL
 
 	void SQLInserter::terminate() noexcept
 	{
-		cache.clear();
+		mPstmt.reset();
 		mConnect.reset();
 	}
 
@@ -35,6 +35,25 @@ namespace badSQL
 		catch (const sql::SQLException& e) {
 			terminate();
 			return bString::failure(e.what());
+		}
+
+		return bString::success();
+	}
+
+	bString SQLInserter::prepare(const std::string& sql) noexcept
+	{
+		if (!is_connected()) {
+			terminate();
+			return bString::failure("No Connection");
+		}
+
+		try {
+			mPstmt.reset();
+			mPstmt.reset(mConnect->prepareStatement(sql));
+		}
+		catch (const sql::SQLException& e) {
+			terminate();
+			return bString::failure(std::string("Failed to prepare statement: ") + e.what());
 		}
 
 		return bString::success();
@@ -84,22 +103,5 @@ namespace badSQL
 		}
 	
 		return bString::success();
-	}
-
-	sql::PreparedStatement* SQLInserter::get_pstmt(const std::string& sql)
-	{
-		auto it = cache.find(sql);
-
-		if (it != cache.end()) {
-			return it->second.get();
-		}
-
-		auto new_pstmt = std::unique_ptr<sql::PreparedStatement>(mConnect.get()->prepareStatement(sql));
-
-		auto ptr = new_pstmt.get();
-
-		cache.emplace(sql, std::move(new_pstmt));
-
-		return ptr;
 	}
 }
