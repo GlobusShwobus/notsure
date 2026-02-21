@@ -8,7 +8,8 @@
 
 namespace badHTTP
 {
-	badCore::bString http_bind_get_template(CURL* curl, const std::string& cert, const std::string& url, HttpResponse& reciever)
+	//a minimalistic getter template
+	badCore::bString http_bind_get_template(CURL* curl, const std::string& cert, const std::string& url, HttpResponse& receiver)
 	{
 		CURLcode code;
 
@@ -21,7 +22,7 @@ namespace badHTTP
 		code = set_write_function(curl);
 		if (code != CURLE_OK) return setopt_failure(code);
 
-		code = set_reciever(curl, reciever);
+		code = set_receiver(curl, receiver);
 		if (code != CURLE_OK) return setopt_failure(code);
 
 		code = set_max_redirects(curl, 2L);//magic 2, generally should be just 1 tho since i should know exactly where i am going

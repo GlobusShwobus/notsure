@@ -67,13 +67,32 @@ namespace badHTTP
 		return code;
 	}
 
-	CURLcode set_reciever(CURL* curl, HttpResponse& reciever) noexcept
+	CURLcode set_receiver(CURL* curl, HttpResponse& receiver) noexcept
 	{
-		return curl_easy_setopt(curl, CURLOPT_WRITEDATA, &reciever);
+		return curl_easy_setopt(curl, CURLOPT_WRITEDATA, &receiver);
 	}
 
 	CURLcode set_only_connect(CURL* curl) noexcept
 	{
 		return curl_easy_setopt(curl, CURLOPT_CONNECT_ONLY, 1L);
+	}
+
+	CURLcode set_url_and_receiver(CURL* curl, const std::string& url, HttpResponse& receiver)
+	{
+		if (!curl)
+			return CURLE_FAILED_INIT;
+
+		CURLcode code = CURLE_OK;
+
+		code = set_url(curl, url);
+		if (code != CURLE_OK) 
+			return code;
+
+		code = set_receiver(curl, receiver);
+		if (code != CURLE_OK) 
+			return code;
+
+
+		return code;
 	}
 }

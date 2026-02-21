@@ -1,4 +1,6 @@
 #pragma once
+
+#include "Sequence.h"
 #include <memory>
 #include <curl/curl.h>
 
